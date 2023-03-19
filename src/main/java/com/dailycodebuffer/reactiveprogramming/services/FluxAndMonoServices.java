@@ -21,6 +21,10 @@ public class FluxAndMonoServices {
                 .map(String::toUpperCase);
     }
 
+    public Flux<String> fruitsFluxFilter(int number) {
+        return Flux.fromIterable(List.of("mango", "orange", "banana"))
+                .filter(s -> s.length() > number);
+    }
 
     public static void main(String[] args) {
 
