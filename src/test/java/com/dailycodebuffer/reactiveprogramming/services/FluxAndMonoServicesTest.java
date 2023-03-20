@@ -64,6 +64,7 @@ class FluxAndMonoServicesTest {
     }
 
 
+
     @Test
     void fruitsFluxConcatMap() {
         var fruitsFluxConcatMap = fluxAndMonoServices.fruitsFluxConcatMap();
