@@ -24,6 +24,14 @@ class FluxAndMonoServicesTest {
     }
 
     @Test
+    void testFruitMonoFlatMapMany() {
+        var fruitsFlux = fluxAndMonoServices.fruitMonoFlatMapMany();
+        StepVerifier.create(fruitsFlux)
+                .expectNextCount(6)//papaya
+                .verifyComplete();
+    }
+
+    @Test
     void fruitsFlux() {
         var fruitsFlux = fluxAndMonoServices.fruitsFlux();
         StepVerifier.create(fruitsFlux).expectNext("mango", "orange"
@@ -64,7 +72,6 @@ class FluxAndMonoServicesTest {
     }
 
 
-
     @Test
     void fruitsFluxConcatMap() {
         var fruitsFluxConcatMap = fluxAndMonoServices.fruitsFluxConcatMap();
@@ -72,4 +79,6 @@ class FluxAndMonoServicesTest {
                 .expectNextCount(17) //number of letters
                 .verifyComplete();
     }
+
+
 }

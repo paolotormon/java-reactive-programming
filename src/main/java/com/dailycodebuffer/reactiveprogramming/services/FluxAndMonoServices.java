@@ -14,6 +14,12 @@ public class FluxAndMonoServices {
                 .log();
     }
 
+    public Flux<String> fruitMonoFlatMapMany() {
+        return Mono.just("papaya")
+                .flatMapMany(s -> Flux.just(s.split("")))
+                .log();
+    }
+
     public Mono<List<String>> fruitMonoFlatMap() {
         return Mono.just("papaya")
                 .flatMap(s -> Mono.just(List.of(s.split(""))))
@@ -49,7 +55,7 @@ public class FluxAndMonoServices {
                 .log();
     }
 
-//  concat map is  same as flatmap but preserves order of async
+    //  concat map is  same as flatmap but preserves order of async
     public Flux<String> fruitsFluxConcatMap() {
         return Flux.fromIterable(List.of("mango", "orange", "banana"))
                 .concatMap(s -> Flux.just(s.split(""))
