@@ -82,11 +82,34 @@ class FluxAndMonoServicesTest {
 
     @Test
     void fruitsFluxTransform() {
-        var fruitsFluxTransform = fluxAndMonoServices.fruitsFluxTransform(5);
+
+        var fruitsFluxTransform =
+                fluxAndMonoServices.fruitsFluxTransform(5);
+
         StepVerifier.create(fruitsFluxTransform)
                 .expectNext("orange", "banana")
                 .verifyComplete();
     }
 
+    @Test
+    void fruitsFluxTransformHighDefaultIfEmpty() {
 
+        var fruitsFluxTransformIfEmpty =
+                fluxAndMonoServices.fruitsFluxTransformIfEmpty(10);
+
+        StepVerifier.create(fruitsFluxTransformIfEmpty)
+                .expectNext("Default")
+                .verifyComplete();
+    }
+
+
+    @Test
+    void fruitsFluxTransformSwitchIfEmpty() {
+        var fruitsFluxTransformSwitchIfEmpty =
+                fluxAndMonoServices.fruitsFluxTransformSwitchIfEmpty(8);
+
+        StepVerifier.create(fruitsFluxTransformSwitchIfEmpty)
+                .expectNext("Pineapple", "Jackfruit")
+                .verifyComplete();
+    }
 }
