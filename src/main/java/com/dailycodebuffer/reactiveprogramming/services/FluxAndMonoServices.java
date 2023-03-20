@@ -41,7 +41,6 @@ public class FluxAndMonoServices {
     }
 
     public Flux<String> fruitsFluxFlatMapAsync() {
-        System.out.println("Wat");
         return Flux.fromIterable(List.of("mango", "orange", "banana"))
                 .flatMap(s -> Flux.just(s.split(""))
                         .delayElements(Duration.ofMillis(
@@ -50,6 +49,14 @@ public class FluxAndMonoServices {
                 .log();
     }
 
+    public Flux<String> fruitsFluxConcatMap() {
+        return Flux.fromIterable(List.of("mango", "orange", "banana"))
+                .concatMap(s -> Flux.just(s.split(""))
+                        .delayElements(Duration.ofMillis(
+                                new Random().nextInt(1000)
+                        )))
+                .log();
+    }
 
     public static void main(String[] args) {
 

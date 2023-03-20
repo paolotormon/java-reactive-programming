@@ -64,4 +64,11 @@ class FluxAndMonoServicesTest {
     }
 
 
+    @Test
+    void fruitsFluxConcatMap() {
+        var fruitsFluxConcatMap = fluxAndMonoServices.fruitsFluxConcatMap();
+        StepVerifier.create(fruitsFluxConcatMap)
+                .expectNextCount(17) //number of letters
+                .verifyComplete();
+    }
 }
