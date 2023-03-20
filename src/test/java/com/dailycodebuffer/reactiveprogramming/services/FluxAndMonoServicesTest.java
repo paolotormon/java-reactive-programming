@@ -32,7 +32,17 @@ class FluxAndMonoServicesTest {
     @Test
     void fruitsFluxFilter() {
         var fruitsFluxFilter = fluxAndMonoServices.fruitsFluxFilter(5);
-        StepVerifier.create(fruitsFluxFilter).expectNext("orange"
-                , "banana").verifyComplete();
+        StepVerifier.create(fruitsFluxFilter)
+                .expectNext("orange", "banana")
+                .verifyComplete();
+    }
+
+
+    @Test
+    void fruitsFluxFlatMap() {
+        var fruitsFluxFlatMap = fluxAndMonoServices.fruitsFluxFlatMap(5);
+        StepVerifier.create(fruitsFluxFlatMap)
+                .expectNextCount(17) //number of letters
+                .verifyComplete();
     }
 }

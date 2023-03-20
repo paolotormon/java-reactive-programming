@@ -26,6 +26,12 @@ public class FluxAndMonoServices {
                 .filter(s -> s.length() > number);
     }
 
+    public Flux<String> fruitsFluxFlatMap(int number) {
+        return Flux.fromIterable(List.of("mango", "orange", "banana"))
+                .flatMap(s->Flux.just(s.split("")))
+                .log();
+    }
+
     public static void main(String[] args) {
 
         FluxAndMonoServices fluxAndMonoServices = new FluxAndMonoServices();
