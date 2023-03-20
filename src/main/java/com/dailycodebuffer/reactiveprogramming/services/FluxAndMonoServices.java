@@ -9,6 +9,17 @@ import java.util.Random;
 
 public class FluxAndMonoServices {
 
+    public Mono<String> fruitMono() {
+        return Mono.just("papaya")
+                .log();
+    }
+
+    public Mono<List<String>> fruitMonoFlatMap() {
+        return Mono.just("papaya")
+                .flatMap(s -> Mono.just(List.of(s.split(""))))
+                .log();
+    }
+
     public Flux<String> fruitsFlux() {
         return Flux.fromIterable(List.of("mango", "orange", "banana")).log();
     }
@@ -39,10 +50,6 @@ public class FluxAndMonoServices {
                 .log();
     }
 
-    public Mono<String> fruitMono() {
-        return Mono.just("papaya")
-                .log();
-    }
 
     public static void main(String[] args) {
 

@@ -8,17 +8,26 @@ import static org.junit.jupiter.api.Assertions.*;
 class FluxAndMonoServicesTest {
     FluxAndMonoServices fluxAndMonoServices = new FluxAndMonoServices();
 
-    @Test
-    void fruitsFlux() {
-        var fruitsFlux = fluxAndMonoServices.fruitsFlux();
-        StepVerifier.create(fruitsFlux).expectNext("mango", "orange"
-                , "banana").verifyComplete();
-    }
 
     @Test
     void fruitMono() {
         var fruitMono = fluxAndMonoServices.fruitMono();
         StepVerifier.create(fruitMono).expectNext("papaya").verifyComplete();
+    }
+
+    @Test
+    void fruitMonoFlatMap() {
+        var fruitMonoFlatMap = fluxAndMonoServices.fruitMonoFlatMap();
+        StepVerifier.create(fruitMonoFlatMap)
+                .expectNextCount(1) //[p, a, p , a ...]
+                .verifyComplete();
+    }
+
+    @Test
+    void fruitsFlux() {
+        var fruitsFlux = fluxAndMonoServices.fruitsFlux();
+        StepVerifier.create(fruitsFlux).expectNext("mango", "orange"
+                , "banana").verifyComplete();
     }
 
     @Test
@@ -53,4 +62,6 @@ class FluxAndMonoServicesTest {
                 .expectNextCount(17) //number of letters
                 .verifyComplete();
     }
+
+
 }
