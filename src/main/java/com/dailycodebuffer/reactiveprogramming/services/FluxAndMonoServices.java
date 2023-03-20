@@ -3,17 +3,14 @@ package com.dailycodebuffer.reactiveprogramming.services;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.time.Duration;
 import java.util.List;
+import java.util.Random;
 
 public class FluxAndMonoServices {
 
     public Flux<String> fruitsFlux() {
         return Flux.fromIterable(List.of("mango", "orange", "banana")).log();
-    }
-
-    public Mono<String> fruitMono() {
-        return Mono.just("papaya")
-                .log();
     }
 
     public Flux<String> fruitsFluxMap() {
@@ -26,9 +23,24 @@ public class FluxAndMonoServices {
                 .filter(s -> s.length() > number);
     }
 
-    public Flux<String> fruitsFluxFlatMap(int number) {
+    public Flux<String> fruitsFluxFlatMap() {
         return Flux.fromIterable(List.of("mango", "orange", "banana"))
-                .flatMap(s->Flux.just(s.split("")))
+                .flatMap(s -> Flux.just(s.split("")))
+                .log();
+    }
+
+    public Flux<String> fruitsFluxFlatMapAsync() {
+        System.out.println("Wat");
+        return Flux.fromIterable(List.of("mango", "orange", "banana"))
+                .flatMap(s -> Flux.just(s.split(""))
+                        .delayElements(Duration.ofMillis(
+                                new Random().nextInt(1000)
+                        )))
+                .log();
+    }
+
+    public Mono<String> fruitMono() {
+        return Mono.just("papaya")
                 .log();
     }
 

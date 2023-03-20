@@ -40,8 +40,16 @@ class FluxAndMonoServicesTest {
 
     @Test
     void fruitsFluxFlatMap() {
-        var fruitsFluxFlatMap = fluxAndMonoServices.fruitsFluxFlatMap(5);
+        var fruitsFluxFlatMap = fluxAndMonoServices.fruitsFluxFlatMap();
         StepVerifier.create(fruitsFluxFlatMap)
+                .expectNextCount(17) //number of letters
+                .verifyComplete();
+    }
+
+    @Test
+    void fruitsFluxFlatMapAsync() {
+        var fruitsFluxFlatMapAsync = fluxAndMonoServices.fruitsFluxFlatMapAsync();
+        StepVerifier.create(fruitsFluxFlatMapAsync)
                 .expectNextCount(17) //number of letters
                 .verifyComplete();
     }
