@@ -5,6 +5,7 @@ import reactor.core.publisher.Mono;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 import java.util.function.Function;
 
@@ -138,6 +139,19 @@ public class FluxAndMonoServices {
                         subscription -> System.out.println("subscription.toString()" +
                                 " = " + subscription)
                 ).doOnComplete(() -> System.out.println("Completed! "));
+    }
+
+    public Flux<String> fruitsFluxOnErrorMap() {
+        return Flux.fromIterable(List.of("mango", "orange", "banana"))
+                .map(s -> {
+                    if (s.equalsIgnoreCase("orange"))
+                        throw new RuntimeException();
+                    return s.toUpperCase();
+                })
+                .onErrorMap(throwable -> {
+                    System.out.println("throwable = " + throwable);
+                    return new IllegalStateException("From onErrorMap");
+                });
     }
 
     public static void main(String[] args) {
