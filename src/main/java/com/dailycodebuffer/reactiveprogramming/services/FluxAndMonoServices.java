@@ -110,6 +110,11 @@ public class FluxAndMonoServices {
         return flux1.concatWith(flux2);
     }
 
+    //    concat but async
+    public Flux<String> fruitsFluxMergeWith(Flux<String> flux1, Flux<String> flux2) {
+        return flux1.mergeWith(flux2);
+    }
+
     public static void main(String[] args) {
 
         FluxAndMonoServices fluxAndMonoServices = new FluxAndMonoServices();

@@ -4,6 +4,8 @@ import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Flux;
 import reactor.test.StepVerifier;
 
+import java.time.Duration;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class FluxAndMonoServicesTest {
@@ -131,6 +133,20 @@ class FluxAndMonoServicesTest {
         var fruitsConcat = fluxAndMonoServices.fruitsFluxConcatWith(fruits, veggies);
         StepVerifier.create(fruitsConcat)
                 .expectNext("mango", "orange", "banana", "lemon")
+                .verifyComplete();
+    }
+
+    @Test
+    void fruitsFluxMergeWith() {
+        var fruits =
+                Flux.just("mango", "orange").delayElements(Duration.ofMillis(50));
+        var veggies =
+                Flux.just("lettuce", "cabbage").delayElements(Duration.ofMillis(75));
+        var fruitsConcat = fluxAndMonoServices
+                .fruitsFluxMergeWith(fruits, veggies)
+                .log();
+        StepVerifier.create(fruitsConcat)
+                .expectNext("mango", "lettuce", "orange", "cabbage")
                 .verifyComplete();
     }
 }
