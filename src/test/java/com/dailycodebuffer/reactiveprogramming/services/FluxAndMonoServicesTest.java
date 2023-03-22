@@ -138,15 +138,17 @@ class FluxAndMonoServicesTest {
 
     @Test
     void fruitsFluxMergeWith() {
-        var fruits =
-                Flux.just("mango", "orange").delayElements(Duration.ofMillis(50));
-        var veggies =
-                Flux.just("lettuce", "cabbage").delayElements(Duration.ofMillis(75));
-        var fruitsConcat = fluxAndMonoServices
-                .fruitsFluxMergeWith(fruits, veggies)
-                .log();
-        StepVerifier.create(fruitsConcat)
-                .expectNext("mango", "lettuce", "orange", "cabbage")
-                .verifyComplete();
+        var fruits = Flux.just("mango", "orange").delayElements(Duration.ofMillis(50));
+        var veggies = Flux.just("lettuce", "cabbage").delayElements(Duration.ofMillis(75));
+        var fruitsConcat = fluxAndMonoServices.fruitsFluxMergeWith(fruits, veggies).log();
+        StepVerifier.create(fruitsConcat).expectNext("mango", "lettuce", "orange", "cabbage").verifyComplete();
+    }
+
+    @Test
+    void fruitsFluxMergeSequential() {
+        var fruits = Flux.just("mango", "orange").delayElements(Duration.ofMillis(50));
+        var veggies = Flux.just("lettuce", "cabbage").delayElements(Duration.ofMillis(75));
+        var fruitsConcat = fluxAndMonoServices.fruitsFluxMergeSequential(fruits, veggies).log();
+        StepVerifier.create(fruitsConcat).expectNext("mango", "orange", "lettuce", "cabbage").verifyComplete();
     }
 }

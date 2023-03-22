@@ -115,6 +115,11 @@ public class FluxAndMonoServices {
         return flux1.mergeWith(flux2);
     }
 
+    public Flux<String> fruitsFluxMergeSequential(Flux<String> flux1,
+                                                      Flux<String> flux2) {
+        return Flux.mergeSequential(flux1, flux2);
+    }
+
     public static void main(String[] args) {
 
         FluxAndMonoServices fluxAndMonoServices = new FluxAndMonoServices();
