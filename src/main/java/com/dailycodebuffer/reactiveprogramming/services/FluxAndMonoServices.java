@@ -39,6 +39,9 @@ public class FluxAndMonoServices {
     public Flux<String> fruitsFluxFilter(int number) {
         return Flux.fromIterable(List.of("mango", "orange", "banana"))
                 .filter(s -> s.length() > number);
+//        Also possible syntax with `just()`
+//        return Flux.just("mango", "orange", "banana")
+//                .filter(s -> s.length() > number);
     }
 
     public Flux<String> fruitsFluxFlatMap() {
@@ -97,6 +100,14 @@ public class FluxAndMonoServices {
                 .switchIfEmpty(Flux.just("Pineapple", "Jackfruit")
                         .transform(filterData))
                 .log();
+    }
+
+    public Flux<String> fruitsFluxConcat(Flux<String> flux1, Flux<String> flux2) {
+        return Flux.concat(flux1, flux2);
+    }
+
+    public Flux<String> fruitsFluxConcatWith(Flux<String> flux1, Flux<String> flux2) {
+        return flux1.concatWith(flux2);
     }
 
     public static void main(String[] args) {

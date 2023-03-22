@@ -1,6 +1,7 @@
 package com.dailycodebuffer.reactiveprogramming.services;
 
 import org.junit.jupiter.api.Test;
+import reactor.core.publisher.Flux;
 import reactor.test.StepVerifier;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -110,6 +111,26 @@ class FluxAndMonoServicesTest {
 
         StepVerifier.create(fruitsFluxTransformSwitchIfEmpty)
                 .expectNext("Pineapple", "Jackfruit")
+                .verifyComplete();
+    }
+
+    @Test
+    void fruitsFluxConcat() {
+        var fruits = Flux.just("mango", "orange");
+        var veggies = Flux.just("tomato", "lemon");
+        var fruitsConcat = fluxAndMonoServices.fruitsFluxConcat(fruits, veggies);
+        StepVerifier.create(fruitsConcat)
+                .expectNext("mango", "orange", "tomato", "lemon")
+                .verifyComplete();
+    }
+
+    @Test
+    void fruitsFluxConcatWith() {
+        var fruits = Flux.just("mango", "orange");
+        var veggies = Flux.just("banana", "lemon");
+        var fruitsConcat = fluxAndMonoServices.fruitsFluxConcatWith(fruits, veggies);
+        StepVerifier.create(fruitsConcat)
+                .expectNext("mango", "orange", "banana", "lemon")
                 .verifyComplete();
     }
 }
