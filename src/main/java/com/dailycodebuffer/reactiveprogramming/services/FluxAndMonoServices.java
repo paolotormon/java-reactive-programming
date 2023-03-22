@@ -130,6 +130,16 @@ public class FluxAndMonoServices {
         return Flux.zip(flux1, flux2, flux3).map(objects -> objects.getT1() + objects.getT2() + objects.getT3());
     }
 
+    public Flux<String> fruitsFluxFilterDoOn(int number) {
+        return Flux.fromIterable(List.of("mango", "orange", "banana"))
+                .filter(s -> s.length() > number)
+                .doOnNext(s -> System.out.println("s = " + s))
+                .doOnSubscribe(
+                        subscription -> System.out.println("subscription.toString()" +
+                                " = " + subscription)
+                ).doOnComplete(() -> System.out.println("Completed! "));
+    }
+
     public static void main(String[] args) {
 
         FluxAndMonoServices fluxAndMonoServices = new FluxAndMonoServices();

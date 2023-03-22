@@ -167,4 +167,13 @@ class FluxAndMonoServicesTest {
                 veggies, food).log();
         StepVerifier.create(fruitsConcat).expectNext("mangolettuceramen", "orangecabbagepizza").verifyComplete();
     }
+
+    @Test
+    void fruitsFluxFilterDoOn() {
+        var fruitsFluxFilter = fluxAndMonoServices.fruitsFluxFilterDoOn(5);
+
+        StepVerifier.create(fruitsFluxFilter)
+                .expectNext("orange", "banana")
+                .verifyComplete();
+    }
 }
