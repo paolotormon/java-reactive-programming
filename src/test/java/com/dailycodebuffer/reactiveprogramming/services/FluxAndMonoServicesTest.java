@@ -6,8 +6,6 @@ import reactor.test.StepVerifier;
 
 import java.time.Duration;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class FluxAndMonoServicesTest {
     FluxAndMonoServices fluxAndMonoServices = new FluxAndMonoServices();
 
@@ -150,5 +148,23 @@ class FluxAndMonoServicesTest {
         var veggies = Flux.just("lettuce", "cabbage").delayElements(Duration.ofMillis(75));
         var fruitsConcat = fluxAndMonoServices.fruitsFluxMergeSequential(fruits, veggies).log();
         StepVerifier.create(fruitsConcat).expectNext("mango", "orange", "lettuce", "cabbage").verifyComplete();
+    }
+
+    @Test
+    void fruitsFluxZip() {
+        var fruits = Flux.just("mango", "orange");
+        var veggies = Flux.just("lettuce", "cabbage");
+        var fruitsConcat = fluxAndMonoServices.fruitsFluxZip(fruits, veggies).log();
+        StepVerifier.create(fruitsConcat).expectNext("mangolettuce", "orangecabbage").verifyComplete();
+    }
+
+    @Test
+    void fruitsFluxZipTuple() {
+        var fruits = Flux.just("mango", "orange");
+        var veggies = Flux.just("lettuce", "cabbage");
+        var food = Flux.just("ramen", "pizza");
+        var fruitsConcat = fluxAndMonoServices.fruitsFluxZipTuple(fruits,
+                veggies, food).log();
+        StepVerifier.create(fruitsConcat).expectNext("mangolettuceramen", "orangecabbagepizza").verifyComplete();
     }
 }

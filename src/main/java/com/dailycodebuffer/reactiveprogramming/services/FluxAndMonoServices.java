@@ -115,9 +115,19 @@ public class FluxAndMonoServices {
         return flux1.mergeWith(flux2);
     }
 
-    public Flux<String> fruitsFluxMergeSequential(Flux<String> flux1,
-                                                      Flux<String> flux2) {
+    public Flux<String> fruitsFluxMergeSequential(Flux<String> flux1, Flux<String> flux2) {
         return Flux.mergeSequential(flux1, flux2);
+    }
+
+    public Flux<String> fruitsFluxZip(Flux<String> flux1, Flux<String> flux2) {
+        return Flux.zip(flux1, flux2, (first, second) -> first + second);
+//        return flux1.zip(flux1, flux2, (first, second) -> first + second);
+    }
+
+    public Flux<String> fruitsFluxZipTuple(Flux<String> flux1,
+                                           Flux<String> flux2,
+                                           Flux<String> flux3) {
+        return Flux.zip(flux1, flux2, flux3).map(objects -> objects.getT1() + objects.getT2() + objects.getT3());
     }
 
     public static void main(String[] args) {
