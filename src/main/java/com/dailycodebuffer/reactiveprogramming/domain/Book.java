@@ -11,7 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 public class Book {
     private BookInfo bookInfo;
-    private List<Review> reviewList;
+    private List<Review> reviews;
 
 
 }
