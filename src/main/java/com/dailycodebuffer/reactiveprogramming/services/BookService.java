@@ -30,10 +30,16 @@ public class BookService {
             Mono<List<Review>> reviews =
                     reviewService.getReviews(bookInfo.getBookId()).collectList();
 
-            return reviews.map(review -> new Book(bookInfo, review));
+            return reviews.map(review -> new Book(bookInfo, review)).log();
         });
     }
 
-//    public Mono<Review> getReviews(Long reviewId) {
-//    }
+    public Mono<Book> getBook(Long bookId) {
+        var book = bookInfoService.getBook(bookId);
+        var review = reviewService.getReviews(bookId).collectList();
+
+//        return book.zipWith(review, (b, r) -> new Book(b, r));
+        return book.zipWith(review, Book::new);
+
+    }
 }

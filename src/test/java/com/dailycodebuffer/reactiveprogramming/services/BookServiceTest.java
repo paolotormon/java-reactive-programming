@@ -28,6 +28,12 @@ class BookServiceTest {
     }
 
     @Test
-    void getReviews() {
+    void getBook() {
+        var singleBook = bookService.getBook(1L).log();
+        StepVerifier.create(singleBook)
+                .assertNext(book -> {
+                    assertEquals("Book One", book.getBookInfo().getTitle());
+                    assertEquals(2, book.getReviews().size());
+                }).verifyComplete();
     }
 }
