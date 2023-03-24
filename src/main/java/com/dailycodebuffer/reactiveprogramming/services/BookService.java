@@ -3,6 +3,7 @@ package com.dailycodebuffer.reactiveprogramming.services;
 import com.dailycodebuffer.reactiveprogramming.domain.Book;
 import com.dailycodebuffer.reactiveprogramming.domain.BookInfo;
 import com.dailycodebuffer.reactiveprogramming.domain.Review;
+import com.dailycodebuffer.reactiveprogramming.exception.BookException;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -27,11 +28,17 @@ public class BookService {
     public Flux<Book> getBooks() {
         var allBooks = bookInfoService.getBooks();
         return allBooks.flatMap(bookInfo -> {
-            Mono<List<Review>> reviews =
-                    reviewService.getReviews(bookInfo.getBookId()).collectList();
+                    Mono<List<Review>> reviews =
+                            reviewService.getReviews(bookInfo.getBookId()).collectList();
 
-            return reviews.map(review -> new Book(bookInfo, review)).log();
-        });
+                    return reviews.map(review -> new Book(bookInfo, review)).log();
+                })
+                .onErrorMap(throwable -> {
+                    log.error("Excetption: " + throwable);
+                    return new BookException("Exception occured while " +
+                            "fetching books");
+                })
+                .log();
     }
 
     public Mono<Book> getBook(Long bookId) {
