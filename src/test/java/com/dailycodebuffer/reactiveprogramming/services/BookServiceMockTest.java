@@ -1,6 +1,7 @@
 package com.dailycodebuffer.reactiveprogramming.services;
 
 import com.dailycodebuffer.reactiveprogramming.domain.Book;
+import com.dailycodebuffer.reactiveprogramming.exception.BookException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -33,6 +34,18 @@ class BookServiceMockTest {
         StepVerifier.create(books)
                 .expectNextCount(3)
                 .verifyComplete();
+    }
+
+    @Test
+    void getBooksMockOnError() {
+        Mockito.when(bookInfoService.getBooks()).
+                thenCallRealMethod();
+        Mockito.when(reviewService.getReviews(Mockito.anyLong()))
+                .thenThrow(new IllegalStateException("test exception"));
+        var books = bookService.getBooks();
+        StepVerifier.create(books)
+                .expectError(BookException.class)
+                .verify();
     }
 
 }
