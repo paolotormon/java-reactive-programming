@@ -2,6 +2,7 @@ package com.dailycodebuffer.reactiveprogramming.services;
 
 import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Hooks;
 import reactor.test.StepVerifier;
 
 import java.time.Duration;
@@ -179,6 +180,7 @@ class FluxAndMonoServicesTest {
 
     @Test
     void fruitsFluxOnErrorMap() {
+        Hooks.onOperatorDebug(); // will slow down app
         var fruitsFlux = fluxAndMonoServices.fruitsFluxOnErrorMap().log();
         StepVerifier.create(fruitsFlux).expectNext("MANGO").expectError(IllegalStateException.class).verify();
     }

@@ -2,6 +2,7 @@ package com.dailycodebuffer.reactiveprogramming.services;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.tools.agent.ReactorDebugAgent;
 
 import java.time.Duration;
 import java.util.List;
@@ -142,12 +143,16 @@ public class FluxAndMonoServices {
     }
 
     public Flux<String> fruitsFluxOnErrorMap() {
+        ReactorDebugAgent.init();
+        ReactorDebugAgent.processExistingClasses();
         return Flux.fromIterable(List.of("mango", "orange", "banana"))
+//                .checkpoint("Error checkpoint 1")
                 .map(s -> {
                     if (s.equalsIgnoreCase("orange"))
                         throw new RuntimeException();
                     return s.toUpperCase();
                 })
+//                .checkpoint("Error checkpoint 2")
                 .onErrorMap(throwable -> {
                     System.out.println("throwable = " + throwable);
                     return new IllegalStateException("From onErrorMap");
